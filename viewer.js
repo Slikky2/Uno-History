@@ -47,13 +47,13 @@ async function loadGameHistory() {
       if (Array.isArray(data.history)) {
 
         html += "<details><summary>Game Scores</summary><ul>";
-        data.history.forEach((game, i) => {
+   data.history.forEach((game, i) => {
+  html += `<li><strong>Game ${game.game}:</strong> `;
+  const placements = Object.entries(game.placements || {});
+  html += placements.map(([player, place]) => `${player}: ${place}`).join(", ");
+  html += `</li>`;
+});
 
-          html += `<li><strong>Game ${i + 1}:</strong> ` +
-            Object.entries(game)
-              .map(([p, s]) => `${p}: ${s}`)
-              .join(", ") + "</li>";
-        });
         html += "</ul></details>";
       }
 
