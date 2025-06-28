@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>UNO Game History</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #1d1e22;
+      color: #f1faee;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      color: #ff6b6b;
+    }
+    .match {
+      background: #2d2e32;
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+    .date {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: #fcbf49;
+    }
+    ul {
+      padding-left: 1rem;
+    }
+    input[type="text"] {
+      margin-bottom: 2rem;
+      width: 100%;
+      max-width: 400px;
+      display: block;
+      padding: 0.6rem;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+    }
+    .filtered-out {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>UNO Game History</h1>
+  <input type="text" id="searchInput" placeholder="Search by player name..." />
+  <div id="historyContainer">Loading game history...</div>
+
+  <script type="module" src="viewer.js"></script>
+</body>
+</html>
