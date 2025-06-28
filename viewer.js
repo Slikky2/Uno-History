@@ -16,6 +16,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const historyContainer = document.getElementById('historyContainer');
+const searchInput = document.getElementById('searchInput');
 
 async function loadGameHistory() {
   try {
@@ -34,13 +35,28 @@ async function loadGameHistory() {
       div.className = "match";
 
       const date = new Date(data.timestamp);
-      const sortedPlayers = Object.entries(data.totalScores || {}).sort((a, b) => a[1] - b[1]);
+      const sortedPlayers = Object.entries(data.scores || {}).sort((a, b) => a[1] - b[1]);
+
 
       let html = `<div class="date">${date.toLocaleString()}</div><ul>`;
       sortedPlayers.forEach(([name, score], index) => {
         html += `<li><strong>${index + 1}. ${name}</strong>: ${score} pts</li>`;
       });
       html += "</ul>";
+
+      if (Array.isArray(data.history)) {
+
+        html += "<details><summary>Game Scores</summary><ul>";
+        data.history.forEach((game, i) => {
+
+          html += `<li><strong>Game ${i + 1}:</strong> ` +
+            Object.entries(game)
+              .map(([p, s]) => `${p}: ${s}`)
+              .join(", ") + "</li>";
+        });
+        html += "</ul></details>";
+      }
+
       div.innerHTML = html;
       historyContainer.appendChild(div);
     });
@@ -48,5 +64,17 @@ async function loadGameHistory() {
     historyContainer.innerHTML = `<p>Error loading history: ${error.message}</p>`;
   }
 }
+
+// Filter matches by player
+searchInput.addEventListener("input", () => {
+  const query = searchInput.value.toLowerCase();
+  const matches = document.querySelectorAll(".match");
+  matches.forEach(match => {
+    match.classList.remove("filtered-out");
+    if (!match.innerText.toLowerCase().includes(query)) {
+      match.classList.add("filtered-out");
+    }
+  });
+});
 
 loadGameHistory();
