@@ -16,7 +16,6 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const historyContainer = document.getElementById('historyContainer');
-const searchInput = document.getElementById('searchInput');
 
 async function loadGameHistory() {
   try {
@@ -42,18 +41,6 @@ async function loadGameHistory() {
         html += `<li><strong>${index + 1}. ${name}</strong>: ${score} pts</li>`;
       });
       html += "</ul>";
-
-      if (Array.isArray(data.games)) {
-        html += "<details><summary>Game Scores</summary><ul>";
-        data.games.forEach((game, i) => {
-          html += `<li><strong>Game ${i + 1}:</strong> ` +
-            Object.entries(game)
-              .map(([p, s]) => `${p}: ${s}`)
-              .join(", ") + "</li>";
-        });
-        html += "</ul></details>";
-      }
-
       div.innerHTML = html;
       historyContainer.appendChild(div);
     });
@@ -61,17 +48,5 @@ async function loadGameHistory() {
     historyContainer.innerHTML = `<p>Error loading history: ${error.message}</p>`;
   }
 }
-
-// Filter matches by player
-searchInput.addEventListener("input", () => {
-  const query = searchInput.value.toLowerCase();
-  const matches = document.querySelectorAll(".match");
-  matches.forEach(match => {
-    match.classList.remove("filtered-out");
-    if (!match.innerText.toLowerCase().includes(query)) {
-      match.classList.add("filtered-out");
-    }
-  });
-});
 
 loadGameHistory();
